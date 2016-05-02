@@ -1,8 +1,11 @@
+## 0.10.0 (release date: 2016-05-02)
+
+ * Update base system to Ubuntu 16.04 LTS
+
 ## 0.9.18 (release date: 2015-12-08)
 
  * The latest OpenSSL updates have been pulled in. This fixes [CVE-2015-3193](https://www.openssl.org/news/secadv/20151203.txt) and a few others. Upgrading is strongly recommended.
  * Fixes disabling all services. Thanks to Enderson Maia.
-
 
 ## 0.9.17 (release date: 2015-07-15)
 

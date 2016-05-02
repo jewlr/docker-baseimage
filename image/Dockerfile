@@ -1,5 +1,5 @@
-FROM ubuntu:14.04
-MAINTAINER Phusion <info@phusion.nl>
+FROM ubuntu:16.04
+MAINTAINER Tomas Jacik <tomas@jacik.cz>
 
 ADD . /bd_build
 
