@@ -1,5 +1,5 @@
 NAME = sunfoxcz/baseimage
-VERSION = 0.10.0
+VERSION = 0.10.1
 
 .PHONY: all build test tag_latest release ssh
 

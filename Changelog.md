@@ -1,3 +1,7 @@
+## 0.10.1 (release date: 2016-05-15)
+
+ * Updated OpenSSL
+
 ## 0.10.0 (release date: 2016-05-02)
 
  * Update base system to Ubuntu 16.04 LTS
