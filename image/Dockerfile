@@ -4,10 +4,12 @@ MAINTAINER Schuyler Jager "schuyler@jewlr.com"
 # Remove the useless /bin/sh and use /bin/bash for all sh commands, plus enable SSHd
 RUN rm -f /etc/service/sshd/down && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
+  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
+  echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list && \
   apt-get update -y && \
   apt-get upgrade -y && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
-  nodejs sudo python unzip git-core libcurl4-openssl-dev \
+  nodejs sudo python unzip git-core nginx-extras passenger \
   mysql-client libmysqlclient-dev vim fail2ban \
   postfix libsasl2-modules && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
@@ -19,9 +21,6 @@ RUN rm -f /etc/service/sshd/down && \
   mkdir -p /etc/my_init.d && \
   mkdir /etc/service/nginx && \
   mkdir /root/src && \
-  curl -L http://nginx.org/download/nginx-1.10.0.tar.gz -o /root/src/nginx-1.10.0.tar.gz && \
-  tar xvf /root/src/nginx-1.10.0.tar.gz -C /root/src && \
-  rm /root/src/nginx-1.10.0.tar.gz && \
   curl -L https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz && \
   tar xzvf etcd-v2.3.7-linux-amd64.tar.gz && \
   mv etcd-v2.3.7-linux-amd64/etcdctl /usr/local/bin/etcdctl && \
@@ -37,11 +36,8 @@ RUN rm -f /etc/service/sshd/down && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -c -c "source /etc/profile.d/rvm.sh && rvm autolibs packages" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm install 2.3.0 --default" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && gem install passenger -v 5.0.26 --no-document" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && gem install god --no-document" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm wrapper ruby-2.3.0 bootup god" && \
-  /bin/bash -l -c 'passenger-install-nginx-module --auto --nginx-source-dir=/root/src/nginx-1.10.0/ --extra-configure-flags="--with-http_realip_module --with-http_v2_module"' && \
-  rm -rf /root/src/nginx-1.10.0 && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvmsudo rvm cleanup all"
    #  --add-module=${PAGE_SPEED_DIR} --with-proxy_protocol
 # Page Speed
