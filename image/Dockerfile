@@ -41,7 +41,8 @@ RUN rm -f /etc/service/sshd/down && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && gem install god --no-document" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm wrapper ruby-2.3.0 bootup god" && \
   /bin/bash -l -c 'passenger-install-nginx-module --auto --nginx-source-dir=/root/src/nginx-1.10.0/ --extra-configure-flags="--with-http_realip_module --with-http_v2_module"' && \
-  rm -rf /root/src/nginx-1.10.0
+  rm -rf /root/src/nginx-1.10.0 && \
+  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvmsudo rvm cleanup all"
    #  --add-module=${PAGE_SPEED_DIR} --with-proxy_protocol
 # Page Speed
 # ENV NPS_VERSION 1.9.32.6
