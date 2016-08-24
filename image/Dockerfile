@@ -6,6 +6,7 @@ RUN rm -f /etc/service/sshd/down && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
   echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list && \
+  echo 'hi, this is busting the cache' && \
   apt-get update -y && \
   apt-get upgrade -y && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
