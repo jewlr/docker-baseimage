@@ -6,12 +6,11 @@ RUN rm -f /etc/service/sshd/down && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
   echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list && \
-  echo 'hi, this is busting the cache' && \
   apt-get update -y && \
   apt-get upgrade -y && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs sudo python unzip git-core nginx-extras passenger \
-  mysql-client libmysqlclient-dev vim fail2ban \
+  mysql-client libmysqlclient-dev vim fail2ban whois \
   postfix libsasl2-modules && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
