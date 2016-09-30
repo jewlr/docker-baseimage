@@ -33,6 +33,9 @@ RUN rm -f /etc/service/sshd/down && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers; echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
   curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"; unzip awscli-bundle.zip;\
     ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
+  curl -L "https://github.com/rancher/cli/releases/download/v0.2.0/rancher-linux-amd64-v0.2.0.tar.gz" -o rancher-cli.tar.gz && \
+  tar zxvf rancher-cli.tar.gz && mv rancher-v0.2.0/rancher /usr/local/bin/rancher && \
+  rm -rf rancher-cli.tar.gz rancher-v0.2.0 && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -c -c "source /etc/profile.d/rvm.sh && rvm autolibs packages" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm install 2.3.0 --default" && \
