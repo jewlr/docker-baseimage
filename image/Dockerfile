@@ -11,7 +11,7 @@ RUN rm -f /etc/service/sshd/down && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs sudo python unzip git-core nginx-extras passenger \
   mysql-client libmysqlclient-dev vim fail2ban whois \
-  postfix libsasl2-modules && \
+  postfix libsasl2-modules ntp && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
   echo "America/Toronto" > /etc/timezone && \
