@@ -9,7 +9,7 @@ RUN rm -f /etc/service/sshd/down && \
   apt-get upgrade -y && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs sudo python unzip git-core libcurl4-openssl-dev ruby-dev \
-  mysql-client libmysqlclient-dev vim fail2ban whois \
+  mysql-client libmysqlclient-dev vim fail2ban whois libssl-dev \
   postfix libsasl2-modules ntp && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
@@ -35,10 +35,13 @@ RUN rm -f /etc/service/sshd/down && \
   rm -rf /root/nginx-1.11.4 && \
   echo "passenger_root /var/lib/gems/2.3.0/gems/`ls /var/lib/gems/2.3.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/bin/`ls /usr/bin | grep ruby2`;" >> /opt/nginx/conf/passenger.conf && \
-  useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy; usermod -a -G sudo deploy; usermod -p '*' deploy && \
-  echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers; echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
-  curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"; unzip awscli-bundle.zip;\
-    ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
+  useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy && \
+  usermod -a -G sudo deploy; usermod -p '*' deploy && \
+  echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
+  echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
+  curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
+  unzip awscli-bundle.zip && \
+  ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
   curl -L "https://github.com/rancher/cli/releases/download/v0.2.0/rancher-linux-amd64-v0.2.0.tar.gz" -o rancher-cli.tar.gz && \
   tar zxvf rancher-cli.tar.gz && mv rancher-v0.2.0/rancher /usr/local/bin/rancher && \
   rm -rf rancher-cli.tar.gz rancher-v0.2.0 && \
