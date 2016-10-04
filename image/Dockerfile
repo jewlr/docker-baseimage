@@ -34,7 +34,7 @@ RUN rm -f /etc/service/sshd/down && \
   passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.4 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module" && \
   rm -rf /root/nginx-1.11.4 && \
   echo "passenger_root /var/lib/gems/2.3.0/gems/`ls /var/lib/gems/2.3.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
-  echo "passenger_ruby /usr/bin/`ls /usr/bin | grep ruby2`;" >> /opt/nginx/conf/passenger.conf && \
+  echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.3.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy && \
   usermod -a -G sudo deploy; usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
