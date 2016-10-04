@@ -31,9 +31,10 @@ RUN rm -f /etc/service/sshd/down && \
   gem install passenger --no-rdoc --no-ri && \
   curl -L http://nginx.org/download/nginx-1.11.4.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
-  passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.4 --prefix=/etc/nginx && \
-  echo "passenger_root /var/lib/gems/2.3.0/gems/`ls /var/lib/gems/2.3.0/gems | grep passenger`;" >> /etc/nginx/conf/passenger.conf && \
-  echo "passenger_ruby /usr/bin/`ls /usr/bin | grep ruby2`;" >> /etc/nginx/conf/passenger.conf && \
+  passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.4 --prefix=/opt/nginx && \
+  rm -rf /root/nginx-1.11.4 && \
+  echo "passenger_root /var/lib/gems/2.3.0/gems/`ls /var/lib/gems/2.3.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
+  echo "passenger_ruby /usr/bin/`ls /usr/bin | grep ruby2`;" >> /opt/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy; usermod -a -G sudo deploy; usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers; echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
   curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"; unzip awscli-bundle.zip;\
