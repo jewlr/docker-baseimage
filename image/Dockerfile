@@ -5,11 +5,10 @@ MAINTAINER Schuyler Jager "schuyler@jewlr.com"
 RUN rm -f /etc/service/sshd/down && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
-  echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list && \
   apt-get update -y && \
   apt-get upgrade -y && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
-  nodejs sudo python unzip git-core nginx-extras passenger \
+  nodejs sudo python unzip git-core libcurl4-openssl-dev ruby-dev \
   mysql-client libmysqlclient-dev vim fail2ban whois \
   postfix libsasl2-modules ntp && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
@@ -29,6 +28,12 @@ RUN rm -f /etc/service/sshd/down && \
   chmod +x /usr/local/bin/confd && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable && \
+  gem install passenger --no-rdoc --no-ri && \
+  curl -L http://nginx.org/download/nginx-1.11.4.tar.gz -o nginx.tar.gz && \
+  tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
+  passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.4 --prefix=/etc/nginx && \
+  echo "passenger_root /var/lib/gems/2.3.0/gems/`ls /var/lib/gems/2.3.0/gems | grep passenger`;" >> /etc/nginx/conf/passenger.conf && \
+  echo "passenger_ruby /usr/bin/`ls /usr/bin | grep ruby2`;" >> /etc/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy; usermod -a -G sudo deploy; usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers; echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
   curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"; unzip awscli-bundle.zip;\
