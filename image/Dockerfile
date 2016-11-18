@@ -29,10 +29,10 @@ RUN rm -f /etc/service/sshd/down && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable && \
   gem install passenger --no-rdoc --no-ri && \
-  curl -L http://nginx.org/download/nginx-1.11.4.tar.gz -o nginx.tar.gz && \
+  curl -L http://nginx.org/download/nginx-1.11.6.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
-  passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.4 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module" && \
-  rm -rf /root/nginx-1.11.4 && \
+  passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.6 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module" && \
+  rm -rf /root/nginx-1.11.6 && \
   echo "passenger_root /var/lib/gems/2.3.0/gems/`ls /var/lib/gems/2.3.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.3.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy && \
@@ -46,7 +46,7 @@ RUN rm -f /etc/service/sshd/down && \
   tar zxvf rancher-cli.tar.gz && mv rancher-v0.2.0/rancher /usr/local/bin/rancher && \
   rm -rf rancher-cli.tar.gz rancher-v0.2.0 && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
-  /sbin/setuser deploy /bin/bash -c -c "source /etc/profile.d/rvm.sh && rvm autolibs packages" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm autolibs packages" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm install 2.3.0 --default" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && gem install god --no-document" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm wrapper ruby-2.3.0 bootup god" && \
