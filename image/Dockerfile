@@ -13,7 +13,7 @@ RUN rm -f /etc/service/sshd/down && \
   postfix libsasl2-modules ntp && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
-  echo "America/Toronto" > /etc/timezone && \
+  echo "Etc/UTC" > /etc/timezone && \
   dpkg-reconfigure -f noninteractive tzdata && \
   /bin/bash -l -c "update-ca-certificates" && \
   locale-gen en_US en_US.UTF-8 && \
@@ -29,10 +29,10 @@ RUN rm -f /etc/service/sshd/down && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable && \
   gem install passenger --no-rdoc --no-ri && \
-  curl -L http://nginx.org/download/nginx-1.11.6.tar.gz -o nginx.tar.gz && \
+  curl -L http://nginx.org/download/nginx-1.11.10.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
-  passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.6 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module" && \
-  rm -rf /root/nginx-1.11.6 && \
+  passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.10 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module" && \
+  rm -rf /root/nginx-1.11.10 && \
   echo "passenger_root /var/lib/gems/2.3.0/gems/`ls /var/lib/gems/2.3.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.3.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy && \
@@ -42,15 +42,16 @@ RUN rm -f /etc/service/sshd/down && \
   curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
   unzip awscli-bundle.zip && \
   ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
-  curl -L "https://github.com/rancher/cli/releases/download/v0.2.0/rancher-linux-amd64-v0.2.0.tar.gz" -o rancher-cli.tar.gz && \
-  tar zxvf rancher-cli.tar.gz && mv rancher-v0.2.0/rancher /usr/local/bin/rancher && \
-  rm -rf rancher-cli.tar.gz rancher-v0.2.0 && \
+  curl -L "https://github.com/rancher/cli/releases/download/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz" -o rancher-cli.tar.gz && \
+  tar zxvf rancher-cli.tar.gz && mv rancher-v0.4.1/rancher /usr/local/bin/rancher && \
+  rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm autolibs packages" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm install 2.3.0 --default" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && gem install god --no-document" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm wrapper ruby-2.3.0 bootup god" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvmsudo rvm cleanup all"
+  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvmsudo rvm cleanup all" && \
+  echo "export TZ=:/etc/localtime" >> /etc/profile
    #  --add-module=${PAGE_SPEED_DIR} --with-proxy_protocol
 # Page Speed
 # ENV NPS_VERSION 1.9.32.6
