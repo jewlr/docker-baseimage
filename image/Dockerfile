@@ -10,7 +10,7 @@ RUN rm -f /etc/service/sshd/down && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs sudo python unzip git-core libcurl4-openssl-dev ruby-dev \
   mysql-client libmysqlclient-dev vim fail2ban whois libssl-dev \
-  postfix libsasl2-modules ntp && \
+  postfix libsasl2-modules ntp jq && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
   echo "Etc/UTC" > /etc/timezone && \
