@@ -31,7 +31,7 @@ RUN rm -f /etc/service/sshd/down && \
   chmod +x /usr/local/bin/confd && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable && \
-  gem install passenger --no-rdoc --no-ri && \
+  gem install passenger tiller vault --no-rdoc --no-ri && \
   curl -L http://nginx.org/download/nginx-1.11.10.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
   passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.10 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module" && \
