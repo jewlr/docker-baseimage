@@ -2,7 +2,8 @@ FROM phusion/baseimage:0.9.19
 MAINTAINER Schuyler Jager "schuyler@jewlr.com"
 
 # Remove the useless /bin/sh and use /bin/bash for all sh commands, plus enable SSHd
-RUN rm -f /etc/service/sshd/down && \
+RUN echo "Version Bump 1" && \
+  rm -f /etc/service/sshd/down && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
   apt-get update -y && \
