@@ -39,7 +39,7 @@ RUN echo "Version Bump 3" && \
   curl -L http://nginx.org/download/nginx-1.11.10.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
   passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.11.10 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module" && \
-  rm -rf /root/nginx-1.11.10 && \
+  rm -rf /root/nginx-1.11.13 && \
   echo "passenger_root /var/lib/gems/2.3.0/gems/`ls /var/lib/gems/2.3.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.3.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy && \
