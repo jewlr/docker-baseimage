@@ -14,7 +14,7 @@ RUN echo "Version Bump 4" && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev \
   mysql-client libmysqlclient-dev vim fail2ban whois libssl-dev \
-  postfix libsasl2-modules ntp jq libpcre3-dev && \
+  postfix libsasl2-modules ntp jq libpcre3-dev awscli && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
   echo "Etc/UTC" > /etc/timezone && \
@@ -35,32 +35,34 @@ RUN echo "Version Bump 4" && \
   chmod +x /usr/local/bin/confd && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.0 && \
-  /bin/bash -c "gem install passenger vault --no-rdoc --no-ri" && \
+  /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install passenger vault --no-rdoc --no-ri" && \
   git clone https://github.com/schuylr/tiller.git && \
-  /bin/bash -c "cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
+  /bin/bash -c "source /usr/local/rvm/scripts/rvm && cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
   curl -L http://nginx.org/download/nginx-1.13.1.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
-  /bin/bash -c 'passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module"' && \
+  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module"' && \
   rm -rf /root/nginx-1.13.1 && \
-  echo "passenger_root /var/lib/gems/2.4.0/gems/`ls /var/lib/gems/2.4.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
+  echo "passenger_root /usr/local/rvm/gems/ruby-2.4.0/gems/`ls /usr/local/rvm/gems/ruby-2.4.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.4.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy && \
   usermod -a -G sudo deploy; usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
-  curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
-  unzip awscli-bundle.zip && \
-  ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
   curl -L "https://github.com/rancher/cli/releases/download/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz" -o rancher-cli.tar.gz && \
   tar zxvf rancher-cli.tar.gz && mv rancher-v0.4.1/rancher /usr/local/bin/rancher && \
   rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
-  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm autolibs packages" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm install 2.4.0 --default" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && gem install god --no-document" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm wrapper ruby-2.4.0 bootup god" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvmsudo rvm cleanup all" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm install 2.4.0 --default" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install god --no-document" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper ruby-2.4.0 bootup god" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
+
+# curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
+# unzip awscli-bundle.zip && \
+# ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
+
    #  --add-module=${PAGE_SPEED_DIR} --with-proxy_protocol
 # Page Speed
 # ENV NPS_VERSION 1.9.32.6
