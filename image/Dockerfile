@@ -34,9 +34,7 @@ RUN echo "Version Bump 4" && \
   curl -L https://github.com/kelseyhightower/confd/releases/download/v0.12.0-alpha3/confd-0.12.0-alpha3-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
-  curl -sSL https://get.rvm.io | bash -s stable && \
-  . /etc/profile.d/rvm.sh && \
-  rvm use 2.4.0 --install --default && \
+  curl -sSL https://get.rvm.io | bash -s -- --version 2.4.0 && \
   gem install passenger vault --no-rdoc --no-ri && \
   git clone https://github.com/schuylr/tiller.git && \
   cd tiller && gem build tiller.gemspec && \
