@@ -35,13 +35,12 @@ RUN echo "Version Bump 4" && \
   chmod +x /usr/local/bin/confd && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.0 && \
-  gem install passenger vault --no-rdoc --no-ri && \
+  /bin/bash -c "gem install passenger vault --no-rdoc --no-ri" && \
   git clone https://github.com/schuylr/tiller.git && \
-  cd tiller && gem build tiller.gemspec && \
-  gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller && \
+  /bin/bash -c "cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
   curl -L http://nginx.org/download/nginx-1.13.1.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
-  passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module" && \
+  /bin/bash -c 'passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module"' && \
   rm -rf /root/nginx-1.13.1 && \
   echo "passenger_root /var/lib/gems/2.4.0/gems/`ls /var/lib/gems/2.4.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.4.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
