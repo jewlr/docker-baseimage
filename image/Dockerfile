@@ -35,6 +35,7 @@ RUN echo "Version Bump 4" && \
   chmod +x /usr/local/bin/confd && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable && \
+  rvm use 2.4.0 --install --default && \
   gem install passenger vault --no-rdoc --no-ri && \
   git clone https://github.com/schuylr/tiller.git && \
   cd tiller && gem build tiller.gemspec && \
@@ -43,8 +44,8 @@ RUN echo "Version Bump 4" && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
   passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module" && \
   rm -rf /root/nginx-1.13.1 && \
-  echo "passenger_root /var/lib/gems/2.4.1/gems/`ls /var/lib/gems/2.4.1/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
-  echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.4.1/ruby;" >> /opt/nginx/conf/passenger.conf && \
+  echo "passenger_root /var/lib/gems/2.4.0/gems/`ls /var/lib/gems/2.4.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
+  echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.4.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy && \
   usermod -a -G sudo deploy; usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
@@ -57,9 +58,9 @@ RUN echo "Version Bump 4" && \
   rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm autolibs packages" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm install 2.4.1 --default" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm install 2.4.0 --default" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && gem install god --no-document" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm wrapper ruby-2.4.1 bootup god" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvm wrapper ruby-2.4.0 bootup god" && \
   /sbin/setuser deploy /bin/bash -l -c "source /etc/profile.d/rvm.sh && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
    #  --add-module=${PAGE_SPEED_DIR} --with-proxy_protocol
