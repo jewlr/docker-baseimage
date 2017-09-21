@@ -38,7 +38,7 @@ RUN echo "Version Bump 4" && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install passenger vault --no-rdoc --no-ri" && \
   git clone https://github.com/schuylr/tiller.git && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
-  curl -L http://nginx.org/download/nginx-1.13.5.tar.gz -o nginx.tar.gz && \
+  curl -L http://nginx.org/download/nginx-1.13.1.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
   NPS_VERSION=1.12.34.2-stable && \
   cd && \
@@ -53,8 +53,8 @@ RUN echo "Version Bump 4" && \
   tar -xzvf psol.tar.gz && \
   echo "PSOL has been extracted" && \
   cd && \
-  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.5 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/ngx_pagespeed-1.12.34.2-stable"' && \
-  rm -rf /root/nginx-1.13.5 && \
+  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/ngx_pagespeed-1.12.34.2-stable"' && \
+  rm -rf /root/nginx-1.13.1 && \
   echo "passenger_root /usr/local/rvm/gems/ruby-2.3.1/gems/`ls /usr/local/rvm/gems/ruby-2.3.1/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.3.1/ruby;" >> /opt/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy && \
