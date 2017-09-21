@@ -44,15 +44,16 @@ RUN echo "Version Bump 4" && \
   cd && \
   curl -L https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VERSION}.zip -o v${NPS_VERSION}.zip && \
   unzip v${NPS_VERSION}.zip && \
+  echo "cd" && \
   cd ngx_pagespeed-${NPS_VERSION}/ && \
-  NPS_RELEASE_NUMBER=${NPS_VERSION/beta/} && \
-  NPS_RELEASE_NUMBER=${NPS_VERSION/stable/} && \
+  NPS_RELEASE_NUMBER=1.12.34.2- && \
   psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz && \
   [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL) && \
   curl -L ${psol_url} -o psol.tar.gz && \
   tar -xzvf psol.tar.gz && \
+  echo "PSOL has been extracted" && \
   cd && \
-  /bin/bash -c "source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.5 --prefix=/opt/nginx --extra-configure-flags='--with-http_v2_module --with-http_realip_module --add-module=$HOME/ngx_pagespeed-$NPS_VERSION $PS_NGX_EXTRA_FLAGS'" && \
+  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.5 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/home/ngx_pagespeed-1.12.34.2-stable"' && \
   rm -rf /root/nginx-1.13.5 && \
   echo "passenger_root /usr/local/rvm/gems/ruby-2.3.1/gems/`ls /usr/local/rvm/gems/ruby-2.3.1/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.3.1/ruby;" >> /opt/nginx/conf/passenger.conf && \
