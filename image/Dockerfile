@@ -53,7 +53,7 @@ RUN echo "Version Bump 4" && \
   tar -xzvf psol.tar.gz && \
   echo "PSOL has been extracted" && \
   cd && \
-  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.5 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/home/ngx_pagespeed-1.12.34.2-stable"' && \
+  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.5 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/ngx_pagespeed-1.12.34.2-stable"' && \
   rm -rf /root/nginx-1.13.5 && \
   echo "passenger_root /usr/local/rvm/gems/ruby-2.3.1/gems/`ls /usr/local/rvm/gems/ruby-2.3.1/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.3.1/ruby;" >> /opt/nginx/conf/passenger.conf && \
