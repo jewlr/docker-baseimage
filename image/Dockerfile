@@ -31,7 +31,8 @@ RUN echo "Version Bump 4" && \
   tar xzvf etcd-v2.3.7-linux-amd64.tar.gz && \
   mv etcd-v2.3.7-linux-amd64/etcdctl /usr/local/bin/etcdctl && \
   rm -rf etcd-v2.3.7-linux-amd64.tar.gz etcd-v2.3.7-linux-amd64 && \
-  curl -L https://github.com/kelseyhightower/confd/releases/download/v0.12.0-alpha3/confd-0.12.0-alpha3-linux-amd64 -o /usr/local/bin/confd && \
+  echo "Downloading confd" && \
+  curl -L https://github.com/kelseyhightower/confd/releases/download/v0.12.0/confd-0.12.0-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.0 && \
@@ -46,19 +47,19 @@ RUN echo "Version Bump 4" && \
   curl -L https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VERSION}.zip -o v${NPS_VERSION}.zip && \
   unzip v${NPS_VERSION}.zip && \
   echo "cd" && \
-  cd ngx_pagespeed-${NPS_VERSION}/ && \
+  cd incubator-pagespeed-ngx-${NPS_VERSION}/ && \
   NPS_RELEASE_NUMBER=1.12.34.2- && \
   psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz && \
   [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL) && \
   curl -L ${psol_url} -o psol.tar.gz && \
-  tar -xzvf psol.tar.gz && \
+  tar -xzf psol.tar.gz && \
   echo "PSOL has been extracted" && \
-  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/ngx_pagespeed-1.12.34.2-stable"' && \
+  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.12.34.2-stable"' && \
   rm -rf /root/nginx-1.13.1 && \
   echo "passenger_root /usr/local/rvm/gems/ruby-2.4.0/gems/`ls /usr/local/rvm/gems/ruby-2.4.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.4.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
-  useradd -m -s /bin/bash deploy; usermod -a -G rvm deploy && \
-  usermod -a -G sudo deploy; usermod -p '*' deploy && \
+  useradd -m -s /bin/bash deploy && usermod -a -G rvm deploy && \
+  usermod -a -G sudo deploy && usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
   curl -L "https://github.com/rancher/cli/releases/download/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz" -o rancher-cli.tar.gz && \
