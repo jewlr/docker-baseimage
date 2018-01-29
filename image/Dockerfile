@@ -36,7 +36,7 @@ RUN echo "Version Bump 4" && \
   chmod +x /usr/local/bin/confd && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.0 && \
-  /bin/bash -c "gem update --system" && \
+  /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem update --system" && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install vault passenger:5.1.4 --no-rdoc --no-ri" && \
   git clone https://github.com/schuylr/tiller.git && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
@@ -56,6 +56,7 @@ RUN echo "Version Bump 4" && \
   echo "PSOL has been extracted" && \
   /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.12.34.2-stable"' && \
   rm -rf /root/nginx-1.13.1 && \
+  cd /root && \
   echo "passenger_root /usr/local/rvm/gems/ruby-2.4.0/gems/`ls /usr/local/rvm/gems/ruby-2.4.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.4.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
   useradd -m -s /bin/bash deploy && usermod -a -G rvm deploy && \
@@ -67,11 +68,10 @@ RUN echo "Version Bump 4" && \
   rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm use ruby-2.4.0 && gem install god --no-document" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper ruby-2.4.0 bootup god" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
-
-#  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install god --no-document" && \
-#  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper ruby-2.4.0 bootup god" && \
 
 # curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
 # unzip awscli-bundle.zip && \
