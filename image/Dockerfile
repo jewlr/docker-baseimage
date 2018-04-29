@@ -24,7 +24,7 @@ RUN echo "Version Bump 4" && \
   mkdir -p /etc/my_init.d && \
   mkdir /etc/service/nginx && \
   mkdir /root/src && \
-  curl -L https://releases.hashicorp.com/vault/0.6.5/vault_0.6.5_linux_amd64.zip -o vault.zip && \
+  curl -L https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip -o vault.zip && \
   unzip vault.zip && rm vault.zip && \
   mv vault /usr/local/bin/vault && \
   curl -L https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz && \
