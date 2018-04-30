@@ -21,6 +21,7 @@ RUN echo "Version Bump 4" && \
   dpkg-reconfigure -f noninteractive tzdata && \
   /bin/bash -l -c "update-ca-certificates" && \
   locale-gen en_US en_US.UTF-8 && \
+  npm install npm@latest -g && \
   mkdir -p /etc/my_init.d && \
   mkdir /etc/service/nginx && \
   mkdir /root/src && \
