@@ -38,7 +38,7 @@ RUN echo "Version Bump 4" && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -sSL https://get.rvm.io | bash -s stable --ruby=2.3.1 && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem update --system" && \
-  /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install vault passenger:5.1.4 --no-rdoc --no-ri" && \
+  /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install vault passenger:5.3.2 --no-rdoc --no-ri" && \
   git clone https://github.com/schuylr/tiller.git && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
   curl -L http://nginx.org/download/nginx-1.13.1.tar.gz -o nginx.tar.gz && \
