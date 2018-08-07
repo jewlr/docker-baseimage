@@ -14,7 +14,7 @@ RUN echo "Version Bump 4" && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev \
   mysql-client libmysqlclient-dev vim fail2ban whois libssl-dev \
-  postfix libsasl2-modules ntp jq libpcre3-dev awscli && \
+  postfix libsasl2-modules ntp jq libpcre3-dev awscli uuid-dev && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
   echo "Etc/UTC" > /etc/timezone && \
@@ -36,27 +36,27 @@ RUN echo "Version Bump 4" && \
   curl -L https://github.com/kelseyhightower/confd/releases/download/v0.15.0/confd-0.15.0-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
-  curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.0 && \
+  curl -sSL https://get.rvm.io | bash -s -- --version 1.29.3 --ruby=2.4.0 && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem update --system" && \
-  /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install vault passenger:5.1.4 --no-rdoc --no-ri" && \
+  /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install vault passenger:5.3.3 --no-rdoc --no-ri" && \
   git clone https://github.com/schuylr/tiller.git && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
-  curl -L http://nginx.org/download/nginx-1.13.1.tar.gz -o nginx.tar.gz && \
+  curl -L http://nginx.org/download/nginx-1.15.0.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
-  NPS_VERSION=1.12.34.2-stable && \
+  NPS_VERSION=1.13.35.2-stable && \
   cd && \
   curl -L https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VERSION}.zip -o v${NPS_VERSION}.zip && \
   unzip v${NPS_VERSION}.zip && \
   echo "cd" && \
   cd incubator-pagespeed-ngx-${NPS_VERSION}/ && \
-  NPS_RELEASE_NUMBER=1.12.34.2- && \
+  NPS_RELEASE_NUMBER=1.13.35.2- && \
   psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz && \
   [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL) && \
   curl -L ${psol_url} -o psol.tar.gz && \
   tar -xzf psol.tar.gz && \
   echo "PSOL has been extracted" && \
-  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.13.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.12.34.2-stable"' && \
-  rm -rf /root/nginx-1.13.1 && \
+  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.15.0 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
+  rm -rf /root/nginx-1.15.0 && \
   cd /root && \
   echo "passenger_root /usr/local/rvm/gems/ruby-2.4.0/gems/`ls /usr/local/rvm/gems/ruby-2.4.0/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.4.0/ruby;" >> /opt/nginx/conf/passenger.conf && \
@@ -70,7 +70,7 @@ RUN echo "Version Bump 4" && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm use ruby-2.4.0 && gem install god --no-document" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper ruby-2.4.0 bootup god" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper current bootup god" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
 
