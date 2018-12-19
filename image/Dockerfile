@@ -38,7 +38,7 @@ RUN echo "Version Bump 4" && \
   echo "Downloading confd" && \
   curl -L https://github.com/kelseyhightower/confd/releases/download/v0.15.0/confd-0.15.0-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd && \
-  gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
+  gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
   curl -sSL https://get.rvm.io | bash -s -- --version 1.29.6 --ruby=2.3.1 && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem update --system" && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install vault passenger:5.3.7 --no-rdoc --no-ri" && \
