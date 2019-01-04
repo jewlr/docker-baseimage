@@ -38,10 +38,15 @@ RUN echo "Version Bump 4" && \
   echo "Downloading confd" && \
   curl -L https://github.com/kelseyhightower/confd/releases/download/v0.15.0/confd-0.15.0-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd && \
-  gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
-  curl -sSL https://get.rvm.io | bash -s -- --version 1.29.3 --ruby=2.3.1 && \
-  /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem update --system 2.7.8" && \
-  /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install vault passenger:5.3.7 --no-document" && \
+  useradd -m -s /bin/bash deploy && \
+  usermod -a -G sudo deploy && usermod -p '*' deploy && \
+  echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
+  echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
+  /sbin/setuser deploy /bin/bash -l -c "gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB" && \
+  /sbin/setuser deploy /bin/bash -l -c "curl -sSL https://get.rvm.io | sudo bash -s -- --version 1.29.3 --ruby=2.5.3" && \
+  usermod -a -G rvm deploy && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem update --system 3.0.2" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install vault passenger:6.0.0 --no-document" && \
   git clone https://github.com/schuylr/tiller.git && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
   curl -L http://nginx.org/download/nginx-1.14.2.tar.gz -o nginx.tar.gz && \
@@ -61,19 +66,18 @@ RUN echo "Version Bump 4" && \
   /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.14.2 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
   rm -rf /root/nginx-1.14.2 && \
   cd /root && \
-  echo "passenger_root /usr/local/rvm/gems/ruby-2.3.1/gems/`ls /usr/local/rvm/gems/ruby-2.3.1/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
-  echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.3.1/ruby;" >> /opt/nginx/conf/passenger.conf && \
-  useradd -m -s /bin/bash deploy && usermod -a -G rvm deploy && \
-  usermod -a -G sudo deploy && usermod -p '*' deploy && \
-  echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
-  echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
+  echo "passenger_root /usr/local/rvm/gems/ruby-2.5.3/gems/`ls /usr/local/rvm/gems/ruby-2.5.3/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
+  echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.5.3/ruby;" >> /opt/nginx/conf/passenger.conf && \
   curl -L "https://github.com/rancher/cli/releases/download/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz" -o rancher-cli.tar.gz && \
   tar zxvf rancher-cli.tar.gz && mv rancher-v0.4.1/rancher /usr/local/bin/rancher && \
   rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm use ruby-2.3.1 && gem install god --no-document" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper ruby-2.3.1 bootup god" && \
+  echo "Installing God" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install god --no-document" && \
+  echo "Wrapping God" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper ruby-2.5.3 bootup god" && \
+  echo "Cleaning up RVM" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
 
