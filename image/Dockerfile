@@ -46,7 +46,7 @@ RUN echo "Version Bump 4" && \
   /sbin/setuser deploy /bin/bash -l -c "curl -sSL https://get.rvm.io | sudo bash -s -- --version 1.29.3 --ruby=2.5.3" && \
   usermod -a -G rvm deploy && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem update --system 3.0.2" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install ruby-lint vault passenger:6.0.0 --no-document" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault passenger:6.0.0 --no-document" && \
   git clone https://github.com/schuylr/tiller.git && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
   curl -L http://nginx.org/download/nginx-1.14.2.tar.gz -o nginx.tar.gz && \
