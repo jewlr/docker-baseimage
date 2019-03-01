@@ -6,7 +6,7 @@ RUN echo "Version Bump 5" && \
   rm -f /etc/service/sshd/down && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
-  curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
+  curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update -y && \
