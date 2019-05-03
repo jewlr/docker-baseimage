@@ -71,6 +71,9 @@ RUN echo "Version Bump 5" && \
   curl -L "https://github.com/rancher/cli/releases/download/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz" -o rancher-cli.tar.gz && \
   tar zxvf rancher-cli.tar.gz && mv rancher-v0.4.1/rancher /usr/local/bin/rancher && \
   rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
+  curl -L "https://github.com/rancher/cli/releases/download/v2.2.0/rancher-linux-amd64-v2.2.0.tar.gz" -o rancher-cli2.tar.gz && \
+  tar zxvf rancher-cli2.tar.gz && mv rancher-v2.2.0/rancher /usr/local/bin/rancher2 && \
+  rm -rf rancher-cli2.tar.gz rancher-v2.2.0 && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
   echo "Installing God" && \
