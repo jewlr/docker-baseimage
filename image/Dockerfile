@@ -25,9 +25,6 @@ RUN echo "Version Bump 5" && \
   mkdir -p /etc/my_init.d && \
   mkdir /etc/service/nginx && \
   mkdir /root/src && \
-  curl -L https://collectors.us2.sumologic.com/rest/download/deb/64 -o sumocollector.deb && \
-  dpkg -i sumocollector.deb && \
-  rm sumocollector.deb && \
   curl -L https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip -o vault.zip && \
   unzip vault.zip && rm vault.zip && \
   mv vault /usr/local/bin/vault && \
