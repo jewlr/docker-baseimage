@@ -32,6 +32,10 @@ RUN echo "Version Bump 5" && \
   tar xzvf etcd-v2.3.7-linux-amd64.tar.gz && \
   mv etcd-v2.3.7-linux-amd64/etcdctl /usr/local/bin/etcdctl && \
   rm -rf etcd-v2.3.7-linux-amd64.tar.gz etcd-v2.3.7-linux-amd64 && \
+  echo "Installing GCP Logging Agent" && \
+  curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh && \
+  bash install-logging-agent.sh && \
+  rm -rf install-logging-agent.sh && \
   echo "Downloading confd" && \
   curl -L https://github.com/kelseyhightower/confd/releases/download/v0.15.0/confd-0.15.0-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd && \
