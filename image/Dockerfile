@@ -13,7 +13,7 @@ RUN echo "Version Bump 5" && \
   apt-get upgrade -y && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev \
-  mysql-client libmysqlclient-dev vim fail2ban whois libssl-dev \
+  mysql-client libmysqlclient-dev vim fail2ban whois libssl-dev libpq-dev \
   postfix libsasl2-modules ntp jq libpcre3-dev awscli zlib1g-dev libpcre3 uuid-dev && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
@@ -50,7 +50,7 @@ RUN echo "Version Bump 5" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault passenger:6.0.0 --no-document" && \
   git clone https://github.com/schuylr/tiller.git && \
   /bin/bash -c "source /usr/local/rvm/scripts/rvm && cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
-  curl -L http://nginx.org/download/nginx-1.14.2.tar.gz -o nginx.tar.gz && \
+  curl -L http://nginx.org/download/nginx-1.17.1.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
   NPS_VERSION=1.13.35.2-stable && \
   cd && \
@@ -64,8 +64,8 @@ RUN echo "Version Bump 5" && \
   curl -L ${psol_url} -o psol.tar.gz && \
   tar -xzf psol.tar.gz && \
   echo "PSOL has been extracted" && \
-  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.14.2 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
-  rm -rf /root/nginx-1.14.2 && \
+  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.17.1 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
+  rm -rf /root/nginx-1.17.1 && \
   cd /root && \
   echo "passenger_root /usr/local/rvm/gems/ruby-2.5.3/gems/`ls /usr/local/rvm/gems/ruby-2.5.3/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.5.3/ruby;" >> /opt/nginx/conf/passenger.conf && \
