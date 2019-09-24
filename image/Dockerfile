@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.19
+FROM phusion/baseimage:0.9.22
 MAINTAINER Schuyler Jager "schuyler@jewlr.com"
 
 ADD . /root/base-files
