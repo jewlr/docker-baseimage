@@ -12,8 +12,8 @@ RUN echo "Version Bump 5" && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update -y && \
-  apt-get upgrade -y && \
-  touch /etc/cron.weekly/fstrim && \
+  echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf && \
+  apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev \
