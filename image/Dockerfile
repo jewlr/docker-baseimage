@@ -4,7 +4,7 @@ MAINTAINER Schuyler Jager "schuyler@jewlr.com"
 ADD . /root/base-files
 
 # Remove the useless /bin/sh and use /bin/bash for all sh commands, plus enable SSHd
-RUN echo "Version Bump 5" && \
+RUN echo "Version Bump 6" && \
   rm -f /etc/service/sshd/down && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
