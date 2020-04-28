@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.22
+FROM phusion/baseimage:0.11
 MAINTAINER Schuyler Jager "schuyler@jewlr.com"
 
 ADD . /root/base-files
@@ -8,14 +8,14 @@ RUN echo "Version Bump 7" && \
   rm -f /etc/service/sshd/down && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
-  curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+  curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update -y && \
   echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf && \
   apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
-  nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev \
+  nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev \
   postfix libsasl2-modules ntp jq libpcre3-dev awscli zlib1g-dev libpcre3 uuid-dev && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
@@ -40,7 +40,7 @@ RUN echo "Version Bump 7" && \
   bash install-logging-agent.sh || true && \
   rm -rf install-logging-agent.sh && \
   echo "Downloading confd" && \
-  curl -L https://github.com/kelseyhightower/confd/releases/download/v0.15.0/confd-0.15.0-linux-amd64 -o /usr/local/bin/confd && \
+  curl -L https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd && \
   useradd -m -s /bin/bash deploy && \
   usermod -a -G sudo deploy && usermod -p '*' deploy && \
@@ -49,10 +49,8 @@ RUN echo "Version Bump 7" && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
   chmod +x /root/base-files/install-rvm.sh && \
   ./root/base-files/install-rvm.sh && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault passenger:6.0.0 --no-document" && \
-  git clone https://github.com/schuylr/tiller.git && \
-  /bin/bash -c "source /usr/local/rvm/scripts/rvm && cd tiller && gem build tiller.gemspec && gem install tiller-1.0.0.gem && cd ../ && rm -rf tiller" && \
-  curl -L http://nginx.org/download/nginx-1.17.6.tar.gz -o nginx.tar.gz && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault passenger:6.0.4 --no-document" && \
+  curl -L http://nginx.org/download/nginx-1.17.10.tar.gz -o nginx.tar.gz && \
   tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
   NPS_VERSION=1.13.35.2-stable && \
   cd && \
@@ -66,8 +64,8 @@ RUN echo "Version Bump 7" && \
   curl -L ${psol_url} -o psol.tar.gz && \
   tar -xzf psol.tar.gz && \
   echo "PSOL has been extracted" && \
-  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.17.6 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
-  rm -rf /root/nginx-1.17.6 && \
+  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.17.10 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
+  rm -rf /root/nginx-1.17.10 && \
   cd /root && \
   echo "passenger_root /usr/local/rvm/gems/ruby-2.5.3/gems/`ls /usr/local/rvm/gems/ruby-2.5.3/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
   echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.5.3/ruby;" >> /opt/nginx/conf/passenger.conf && \
