@@ -15,7 +15,7 @@ RUN echo "Version Bump 7" && \
   echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf && \
   apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
-  nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 \
+  nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
   postfix libsasl2-modules ntp jq libpcre3-dev awscli zlib1g-dev libpcre3 uuid-dev && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
