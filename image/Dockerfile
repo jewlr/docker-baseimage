@@ -79,8 +79,8 @@ RUN echo "Version Bump 7" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
   echo "Installing God" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install god --no-document" && \
-  echo "Wrapping God" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper ruby-2.6.6 bootup god" && \
+  echo "Showing God Wrapper" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper show god" && \
   echo "Cleaning up RVM" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
