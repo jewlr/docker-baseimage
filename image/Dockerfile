@@ -11,13 +11,16 @@ RUN echo "Version Bump 7" && \
   curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
   apt-get update -y && \
+  apt-get install -y apt-transport-https ca-certificates gnupg && \
+  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - && \
   echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf && \
   apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
-  postfix libsasl2-modules ntp jq libpcre3-dev awscli zlib1g-dev libpcre3 uuid-dev && \
+  postfix libsasl2-modules ntp jq libpcre3-dev awscli zlib1g-dev libpcre3 uuid-dev google-cloud-sdk && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
   echo "Etc/UTC" > /etc/timezone && \
