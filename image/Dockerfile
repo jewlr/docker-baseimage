@@ -32,13 +32,13 @@ RUN echo "Version Bump 7" && \
   mkdir -p /etc/my_init.d && \
   mkdir /etc/service/nginx && \
   mkdir /root/src && \
-  curl -L https://releases.hashicorp.com/vault/1.10.3/vault_1.10.3_linux_amd64.zip -o vault.zip && \
+  curl -L https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip -o vault.zip && \
   unzip vault.zip && rm vault.zip && \
   mv vault /usr/local/bin/vault && \
-  curl -L https://github.com/coreos/etcd/releases/download/v3.5.3/etcd-v3.5.3-linux-amd64.tar.gz -o etcd-v3.5.3-linux-amd64.tar.gz && \
-  tar xzvf etcd-v3.5.3-linux-amd64.tar.gz && \
-  mv etcd-v3.5.3-linux-amd64/etcdctl /usr/local/bin/etcdctl && \
-  rm -rf etcd-v3.5.3-linux-amd64.tar.gz etcd-v3.5.3-linux-amd64 && \
+  curl -L https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz && \
+  tar xzvf etcd-v2.3.7-linux-amd64.tar.gz && \
+  mv etcd-v2.3.7-linux-amd64/etcdctl /usr/local/bin/etcdctl && \
+  rm -rf etcd-v2.3.7-linux-amd64.tar.gz etcd-v2.3.7-linux-amd64 && \
   echo "Installing GCP Logging Agent, which will always finish even if there is a failure" && \
   curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh && \
   bash install-logging-agent.sh || true && \
