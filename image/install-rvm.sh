@@ -7,6 +7,3 @@
 usermod -a -G rvm deploy
 /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm install 2.7.4 -C --with-jemalloc && rvm use --default 2.7.4"
 /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem update --system 3.0.2"
-
-# TEMP: Until devs have rotated 2.5.3 out
-/sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm install 2.5.8 -C --with-jemalloc"
