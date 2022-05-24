@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM phusion/baseimage:focal-1.1.0
 MAINTAINER Schuyler Jager "schuyler@jewlr.com"
 
 ADD . /root/base-files
