@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] v2.7.7 - 2022-05-25
+
+- Update ruby version to 2.7.7
+- Remove nginx/phusion passenger installs
+- Upgrade phusion base image to v0.11
+- Upgrade ruby gem version from 3.0.2 to 3.3.14
+
 ## [2.2.1] - 2020-09-25
 
 ### Added
