@@ -1,4 +1,4 @@
-FROM phusion/baseimage:focal-1.1.0
+FROM phusion/baseimage:0.11
 MAINTAINER Schuyler Jager "schuyler@jewlr.com"
 
 ADD . /root/base-files
@@ -54,25 +54,25 @@ RUN echo "Version Bump 7" && \
   chmod +x /root/base-files/install-rvm.sh && \
   ./root/base-files/install-rvm.sh && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault passenger:6.0.4 --no-document" && \
-  curl -L http://nginx.org/download/nginx-1.17.10.tar.gz -o nginx.tar.gz && \
-  tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
-  NPS_VERSION=1.13.35.2-stable && \
-  cd && \
-  curl -L https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VERSION}.zip -o v${NPS_VERSION}.zip && \
-  unzip v${NPS_VERSION}.zip && \
-  echo "cd" && \
-  cd incubator-pagespeed-ngx-${NPS_VERSION}/ && \
-  NPS_RELEASE_NUMBER=1.13.35.2- && \
-  psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz && \
-  [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL) && \
-  curl -L ${psol_url} -o psol.tar.gz && \
-  tar -xzf psol.tar.gz && \
-  echo "PSOL has been extracted" && \
-  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.17.10 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
-  rm -rf /root/nginx-1.17.10 && \
-  cd /root && \
-  echo "passenger_root /usr/local/rvm/gems/ruby-2.6.6/gems/`ls /usr/local/rvm/gems/ruby-2.6.6/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
-  echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.6.6/ruby;" >> /opt/nginx/conf/passenger.conf && \
+#  curl -L http://nginx.org/download/nginx-1.17.10.tar.gz -o nginx.tar.gz && \
+#  tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
+#  NPS_VERSION=1.13.35.2-stable && \
+#  cd && \
+#  curl -L https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VERSION}.zip -o v${NPS_VERSION}.zip && \
+#  unzip v${NPS_VERSION}.zip && \
+#  echo "cd" && \
+#  cd incubator-pagespeed-ngx-${NPS_VERSION}/ && \
+#  NPS_RELEASE_NUMBER=1.13.35.2- && \
+#  psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz && \
+#  [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL) && \
+#  curl -L ${psol_url} -o psol.tar.gz && \
+#  tar -xzf psol.tar.gz && \
+#  echo "PSOL has been extracted" && \
+#  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.17.10 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
+#  rm -rf /root/nginx-1.17.10 && \
+#  cd /root && \
+#  echo "passenger_root /usr/local/rvm/gems/ruby-2.6.6/gems/`ls /usr/local/rvm/gems/ruby-2.6.6/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
+#  echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.6.6/ruby;" >> /opt/nginx/conf/passenger.conf && \
   curl -L "https://github.com/rancher/cli/releases/download/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz" -o rancher-cli.tar.gz && \
   tar zxvf rancher-cli.tar.gz && mv rancher-v0.4.1/rancher /usr/local/bin/rancher && \
   rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
