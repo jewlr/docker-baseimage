@@ -4,15 +4,14 @@ MAINTAINER Stan Cheng "stan@jewlr.com"
 ADD . /root/base-files
 
 # Remove the useless /bin/sh and use /bin/bash for all sh commands, plus enable SSHd
-RUN echo "Version Bump 7" && \
+RUN echo "Version Bump 8" && \
   rm -f /etc/service/sshd/down && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
   apt update && apt install ca-certificates && \
   apt-key adv --refresh-keys --keyserver hkp://keyserver.ubuntu.com:80 && \
-  curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
+  echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - && \
   apt-get update -y && \
@@ -53,12 +52,6 @@ RUN echo "Version Bump 7" && \
   chmod +x /root/base-files/install-rvm.sh && \
   ./root/base-files/install-rvm.sh && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault --no-document" && \
-  curl -L "https://github.com/rancher/cli/releases/download/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz" -o rancher-cli.tar.gz && \
-  tar zxvf rancher-cli.tar.gz && mv rancher-v0.4.1/rancher /usr/local/bin/rancher && \
-  rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
-  curl -L "https://github.com/rancher/cli/releases/download/v2.2.0/rancher-linux-amd64-v2.2.0.tar.gz" -o rancher-cli2.tar.gz && \
-  tar zxvf rancher-cli2.tar.gz && mv rancher-v2.2.0/rancher /usr/local/bin/rancher2 && \
-  rm -rf rancher-cli2.tar.gz rancher-v2.2.0 && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
   echo "Installing God" && \
