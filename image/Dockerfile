@@ -31,10 +31,10 @@ RUN echo "Version Bump 7" && \
   npm install npm@latest -g && \
   mkdir -p /etc/my_init.d && \
   mkdir /root/src && \
-  curl -L https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip -o vault.zip && \
+  curl -L https://releases.hashicorp.com/vault/0.10.4/vault_0.10.4_linux_amd64.zip -o vault.zip && \
   unzip vault.zip && rm vault.zip && \
   mv vault /usr/local/bin/vault && \
-  curl -L https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz && \
+  curl -L https://github.com/etcd-io/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz && \
   tar xzvf etcd-v2.3.7-linux-amd64.tar.gz && \
   mv etcd-v2.3.7-linux-amd64/etcdctl /usr/local/bin/etcdctl && \
   rm -rf etcd-v2.3.7-linux-amd64.tar.gz etcd-v2.3.7-linux-amd64 && \
@@ -52,7 +52,7 @@ RUN echo "Version Bump 7" && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
   chmod +x /root/base-files/install-rvm.sh && \
   ./root/base-files/install-rvm.sh && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault passenger:6.0.4 --no-document" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault --no-document" && \
   curl -L "https://github.com/rancher/cli/releases/download/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz" -o rancher-cli.tar.gz && \
   tar zxvf rancher-cli.tar.gz && mv rancher-v0.4.1/rancher /usr/local/bin/rancher && \
   rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
