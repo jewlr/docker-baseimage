@@ -63,11 +63,6 @@ RUN echo "Version Bump 8" && \
   echo "cd" && \
   cd incubator-pagespeed-ngx-${NPS_VERSION}/ && \
   NPS_RELEASE_NUMBER=1.13.35.2- && \
-  psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz && \
-  [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL) && \
-  curl -L ${psol_url} -o psol.tar.gz && \
-  tar -xzf psol.tar.gz && \
-  echo "PSOL has been extracted" && \
   /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.17.10 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
   rm -rf /root/nginx-1.17.10 && \
   cd /root && \
