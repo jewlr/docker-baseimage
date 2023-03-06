@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:master
 MAINTAINER Schuyler Jager "schuyler@jewlr.com"
 
 ADD . /root/base-files
@@ -11,13 +11,16 @@ RUN echo "Version Bump 7" && \
   curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - && \
+  apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com && \
   apt-get update -y && \
   echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf && \
   apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
-  nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 \
-  mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev \
-  postfix libsasl2-modules ntp jq libpcre3-dev awscli zlib1g-dev libpcre3 uuid-dev && \
+  nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic \
+  mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
+  postfix libsasl2-modules ntp jq libpcre3-dev awscli zlib1g-dev libpcre3 uuid-dev google-cloud-sdk && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
   echo "Etc/UTC" > /etc/timezone && \
@@ -67,8 +70,8 @@ RUN echo "Version Bump 7" && \
   /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.17.10 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module --add-module=/root/incubator-pagespeed-ngx-1.13.35.2-stable"' && \
   rm -rf /root/nginx-1.17.10 && \
   cd /root && \
-  echo "passenger_root /usr/local/rvm/gems/ruby-2.5.3/gems/`ls /usr/local/rvm/gems/ruby-2.5.3/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
-  echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.5.3/ruby;" >> /opt/nginx/conf/passenger.conf && \
+  echo "passenger_root /usr/local/rvm/gems/ruby-2.6.6/gems/`ls /usr/local/rvm/gems/ruby-2.6.6/gems | grep passenger`;" >> /opt/nginx/conf/passenger.conf && \
+  echo "passenger_ruby /usr/local/rvm/wrappers/ruby-2.6.6/ruby;" >> /opt/nginx/conf/passenger.conf && \
   curl -L "https://github.com/rancher/cli/releases/download/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz" -o rancher-cli.tar.gz && \
   tar zxvf rancher-cli.tar.gz && mv rancher-v0.4.1/rancher /usr/local/bin/rancher && \
   rm -rf rancher-cli.tar.gz rancher-v0.4.1 && \
@@ -79,8 +82,8 @@ RUN echo "Version Bump 7" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
   echo "Installing God" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install god --no-document" && \
-  echo "Wrapping God" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper ruby-2.5.3 bootup god" && \
+  echo "Showing God Wrapper" && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper show god" && \
   echo "Cleaning up RVM" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
