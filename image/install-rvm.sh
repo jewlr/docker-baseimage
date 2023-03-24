@@ -6,7 +6,7 @@
 /sbin/setuser deploy /bin/bash -l -c "curl -sSL https://get.rvm.io | sudo bash -s" # -- --version 1.29.3"
 usermod -a -G rvm deploy
 /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm install 3.1.3 -C --with-jemalloc && rvm use --default 3.1.3"
-/sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm install 2.7.6 -C --with-jemalloc"
+#/sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm install 2.7.6 -C --with-jemalloc"
 # Install ruby 2.6.6 for backwards compatibility until app images have been merged to all branches
 /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm install 2.6.6 -C --with-jemalloc"
-/sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem update --system 3.0.2"
+/sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem update --system 3.3.3"
