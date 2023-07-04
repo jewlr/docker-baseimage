@@ -9,6 +9,3 @@ usermod -a -G rvm deploy
 # Install ruby 2.7.6 for backwards compatibility until app images have been merged to all branches
 /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm install 2.7.6 -C --with-jemalloc"
 /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem update --system 3.4.15"
-# Try to work around bug in rvm/gem_wrappers related to ruby gem vesion > 3.2.17
-# https://github.com/rvm/gem-wrappers/issues/15
-/sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm . do gem install gem-wrappers"

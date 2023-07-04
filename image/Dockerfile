@@ -52,6 +52,9 @@ RUN echo "Version Bump 8" && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
   chmod +x /root/base-files/install-rvm.sh && \
   ./root/base-files/install-rvm.sh && \
+  # Try to work around bug in rvm/gem_wrappers related to ruby gem vesion > 3.2.17
+  # https://github.com/rvm/gem-wrappers/issues/15
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install gem-wrappers --no-document" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault --no-document" && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
