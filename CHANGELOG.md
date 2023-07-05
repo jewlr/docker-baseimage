@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add support for Ruby 3.2.2
+- Install Rust, required to compile ruby with YJIT
 
 ## [3.0.0] - 2023-07-04
 

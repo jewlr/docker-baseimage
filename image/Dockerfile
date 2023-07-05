@@ -45,6 +45,8 @@ RUN echo "Version Bump 8" && \
   echo "Downloading confd" && \
   curl -L https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd && \
+  echo "Installing Rust, required for YJIT" && \
+  curl https://sh.rustup.rs -sSf | sh -s -- -y && \
   useradd -m -s /bin/bash deploy && \
   usermod -a -G sudo deploy && usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
