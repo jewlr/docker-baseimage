@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for Ruby 3.2.2
 - Install Rust, required to compile ruby with YJIT
 
+### Changed
+
+- Replace GCP Logging Agent (now deprecated) with newer Ops Agent
+
 ## [3.0.0] - 2023-07-04
 
 ### Added
