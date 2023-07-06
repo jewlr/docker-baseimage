@@ -21,7 +21,7 @@ RUN echo "Version Bump 8" && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
   nodejs yarn sudo python unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
-  postfix libsasl2-modules ntp jq libpcre3-dev zlib1g-dev libpcre3 uuid-dev google-cloud-sdk && \
+  postfix libsasl2-modules ntp jq libpcre3-dev zlib1g-dev libpcre3 uuid-dev google-cloud-sdk rustc && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
   echo "Etc/UTC" > /etc/timezone && \
@@ -45,8 +45,6 @@ RUN echo "Version Bump 8" && \
   echo "Downloading confd" && \
   curl -L https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd && \
-  echo "Installing Rust, required for YJIT" && \
-  curl https://sh.rustup.rs -sSf | sh -s -- -y && \
   useradd -m -s /bin/bash deploy && \
   usermod -a -G sudo deploy && usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
