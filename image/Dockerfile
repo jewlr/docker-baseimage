@@ -1,4 +1,4 @@
-FROM phusion/baseimage:bionic-1.0.0
+FROM phusion/baseimage:jammy-1.0.1
 MAINTAINER Stan Cheng "stan@jewlr.com"
 
 ADD . /root/base-files
