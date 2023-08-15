@@ -52,6 +52,12 @@ RUN echo "Version Bump 8" && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
   chmod +x /root/base-files/install-rvm.sh && \
   ./root/base-files/install-rvm.sh && \
+  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault passenger:6.0.18 --no-document" && \
+  curl -L http://nginx.org/download/nginx-1.21.3.tar.gz -o nginx.tar.gz && \
+  tar zxvf nginx.tar.gz -C /root && rm -rf nginx.tar.gz && \
+  /bin/bash -c 'source /usr/local/rvm/scripts/rvm && passenger-install-nginx-module --auto --nginx-source-dir=/root/nginx-1.21.3 --prefix=/opt/nginx --extra-configure-flags="--with-http_v2_module --with-http_realip_module"' && \
+  rm -rf /root/nginx-1.21.3 && \
+  cd /root && \
   # Try to work around bug in rvm/gem_wrappers related to ruby gem vesion > 3.2.17
   # https://github.com/rvm/gem-wrappers/issues/15
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install gem-wrappers --no-document" && \
