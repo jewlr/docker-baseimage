@@ -64,11 +64,6 @@ RUN echo "Version Bump 8" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install rubocop vault --no-document" && \
   /sbin/setuser deploy mkdir /home/deploy/.ssh && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm autolibs packages" && \
-  echo "Installing God" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem install specific_install --no-document" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && gem specific_install -l http://github.com/jewlr/god.git" && \
-  echo "Showing God Wrapper" && \
-  /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper show god" && \
   echo "Cleaning up RVM" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
