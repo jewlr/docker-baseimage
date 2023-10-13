@@ -10,7 +10,7 @@ RUN echo "Version Bump 8" && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
   apt update && apt install ca-certificates && \
   apt-key adv --refresh-keys --keyserver hkp://keyserver.ubuntu.com:80 && \
-  curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+  curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
@@ -19,7 +19,7 @@ RUN echo "Version Bump 8" && \
   echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf && \
   apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
-  nodejs yarn sudo python-is-python3 unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic \
+  nodejs yarn sudo python-is-python3 unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic dnsutils \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
   postfix libsasl2-modules ntp jq libpcre3-dev zlib1g-dev libpcre3 uuid-dev google-cloud-sdk rustc && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
