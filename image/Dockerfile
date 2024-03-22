@@ -12,7 +12,7 @@ RUN echo "Version Bump 8" && \
   apt-key adv --refresh-keys --keyserver hkp://keyserver.ubuntu.com:80 && \
   mkdir -p /etc/apt/keyrings && \
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" > /etc/apt/sources.list.d/nodesource.list && \
+  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.17.1 nodistro main" > /etc/apt/sources.list.d/nodesource.list && \
   apt-get update && \
   apt-get -y install --no-install-recommends nodejs && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
