@@ -19,7 +19,7 @@ RUN echo "Version Bump 8" && \
   nvm use v${NODE_VERSION} && \
   node -v && npm -v && \
   exoprt NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules && \
-  export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+  export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | tee /etc/apt/trusted.gpg.d/server-7.0.asc && \
