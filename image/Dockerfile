@@ -22,6 +22,7 @@ RUN echo "Version Bump 8" && \
   export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  npm install -g yarn && \
   wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | tee /etc/apt/trusted.gpg.d/server-7.0.asc && \
   echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list && \
   apt-get update && apt-get install -y mongodb-mongosh && \
@@ -31,7 +32,7 @@ RUN echo "Version Bump 8" && \
   echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf && \
   apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
-  nodejs yarn sudo python-is-python3 unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic dnsutils \
+  sudo python-is-python3 unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic dnsutils \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
   postfix libsasl2-modules ntp jq libpcre3-dev zlib1g-dev libpcre3 uuid-dev rustc && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
