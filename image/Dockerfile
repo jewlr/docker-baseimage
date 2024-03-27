@@ -15,9 +15,11 @@ RUN echo "Version Bump 8" && \
   apt-key adv --refresh-keys --keyserver hkp://keyserver.ubuntu.com:80 && \
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash && \
   . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION} && \
-  . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION} && \
-  . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION} && \
+  nvm alias default v${NODE_VERSION} && \
+  nvm use v${NODE_VERSION} && \
   node -v && npm -v && \
+  exoprt NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules && \
+  export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | tee /etc/apt/trusted.gpg.d/server-7.0.asc && \
@@ -76,5 +78,3 @@ RUN echo "Version Bump 8" && \
   echo "Cleaning up RVM" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
-
-ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
