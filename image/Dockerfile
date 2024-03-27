@@ -3,6 +3,8 @@ MAINTAINER Stan Cheng "stan@jewlr.com"
 
 ADD . /root/base-files
 
+ENV NVM_DIR /root/.nvm
+
 # Remove the useless /bin/sh and use /bin/bash for all sh commands, plus enable SSHd
 RUN echo "Version Bump 8" && \
   rm -f /etc/service/sshd/down && \
@@ -10,7 +12,6 @@ RUN echo "Version Bump 8" && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
   apt update && apt install ca-certificates wget && \
   apt-key adv --refresh-keys --keyserver hkp://keyserver.ubuntu.com:80 && \
-  ENV NVM_DIR /root/.nvm && \
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash && \
   . $NVM_DIR/nvm.sh && \
   nvm install 18.17.1 && \
