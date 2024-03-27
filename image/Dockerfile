@@ -39,7 +39,7 @@ RUN echo "Version Bump 8" && \
   /bin/bash -l -c "update-ca-certificates" && \
   locale-gen en_US en_US.UTF-8 && \
   npm install npm@latest -g && \
-  npm install -g yarn && \
+  npm install -g yarn@latest && \
   mkdir -p /etc/my_init.d && \
   mkdir /root/src && \
   curl -L https://releases.hashicorp.com/vault/0.10.4/vault_0.10.4_linux_amd64.zip -o vault.zip && \
