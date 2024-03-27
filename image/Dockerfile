@@ -76,3 +76,5 @@ RUN echo "Version Bump 8" && \
   echo "Cleaning up RVM" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
   echo "export TZ=:/etc/localtime" >> /etc/profile
+
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
