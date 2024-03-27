@@ -18,7 +18,7 @@ RUN echo "Version Bump 8" && \
   nvm alias default v${NODE_VERSION} && \
   nvm use v${NODE_VERSION} && \
   node -v && npm -v && \
-  exoprt NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules && \
+  export NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules && \
   export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
