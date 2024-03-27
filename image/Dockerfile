@@ -4,6 +4,7 @@ MAINTAINER Stan Cheng "stan@jewlr.com"
 ADD . /root/base-files
 
 ENV NVM_DIR /root/.nvm
+ENV NODE_VERSION=18.17.1
 
 # Remove the useless /bin/sh and use /bin/bash for all sh commands, plus enable SSHd
 RUN echo "Version Bump 8" && \
@@ -13,10 +14,9 @@ RUN echo "Version Bump 8" && \
   apt update && apt install ca-certificates wget && \
   apt-key adv --refresh-keys --keyserver hkp://keyserver.ubuntu.com:80 && \
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash && \
-  . $NVM_DIR/nvm.sh && \
-  nvm install 18.17.1 && \
-  nvm alias default 18.17.1 && \
-  nvm use default && \
+  . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION} && \
+  . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION} && \
+  . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION} && \
   node -v && npm -v && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
