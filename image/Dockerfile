@@ -21,8 +21,7 @@ RUN echo "Version Bump 8" && \
   export NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules && \
   export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-RUN apt-get update && apt-get install -y --no-install-recommends && \
-  npm install npm@latest -g && \
+RUN apt-get update && apt-get install -y --no-install-recommends npm && \
   npm install -g yarn@latest
 
 RUN wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | tee /etc/apt/trusted.gpg.d/server-7.0.asc && \
