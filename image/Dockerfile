@@ -19,8 +19,12 @@ RUN echo "Version Bump 8" && \
   nvm use v${NODE_VERSION} && \
   node -v && npm -v && \
   export NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules && \
-  export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH && \
-  wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | tee /etc/apt/trusted.gpg.d/server-7.0.asc && \
+  export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+RUN   npm install npm@latest -g && \
+  npm install -g yarn@latest
+
+RUN wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | tee /etc/apt/trusted.gpg.d/server-7.0.asc && \
   echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list && \
   apt-get update && apt-get install -y mongodb-mongosh && \
   wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2204-x86_64-100.9.0.deb && \
@@ -38,8 +42,6 @@ RUN echo "Version Bump 8" && \
   dpkg-reconfigure -f noninteractive tzdata && \
   /bin/bash -l -c "update-ca-certificates" && \
   locale-gen en_US en_US.UTF-8 && \
-  npm install npm@latest -g && \
-  npm install -g yarn@latest && \
   mkdir -p /etc/my_init.d && \
   mkdir /root/src && \
   curl -L https://releases.hashicorp.com/vault/0.10.4/vault_0.10.4_linux_amd64.zip -o vault.zip && \
