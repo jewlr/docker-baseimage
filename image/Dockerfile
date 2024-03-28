@@ -19,7 +19,9 @@ RUN echo "Version Bump 8" && \
   nvm use v${NODE_VERSION} && \
   node -v && npm -v && \
   export NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules && \
-  export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH && \
+  export PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+RUN apt-get update && apt-get install -y --no-install-recommends && \
   npm install npm@latest -g && \
   npm install -g yarn@latest
 
