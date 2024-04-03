@@ -23,11 +23,12 @@ RUN echo "Installing Node 18 and yarn" &&\
 RUN echo "Installing all dependancies" && \
   apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
-  nodejs yarn sudo python-is-python3 unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic dnsutils \
+  nodejs sudo python-is-python3 unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic dnsutils \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
   postfix libsasl2-modules ntp jq libpcre3-dev zlib1g-dev libpcre3 uuid-dev rustc && \
   apt-get update && \
   npm install npm@latest -g && \
+  npm install -g yarn && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN echo "Installing  mongosh and mongodb tools if we need to pull secrets from mongo backup" &&\
