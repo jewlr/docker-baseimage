@@ -19,7 +19,7 @@ RUN echo "Installing Node 18 and yarn" &&\
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   npm install npm@latest -g && \
   mkdir -p /etc/my_init.d && \
-  mkdir /root/src && \
+  mkdir /root/src
 
 RUN echo "Installing all dependancies" && \
   apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
@@ -42,7 +42,7 @@ RUN echo "Setting up timezone and updating certs" && \
   echo "Etc/UTC" > /etc/timezone && \
   dpkg-reconfigure -f noninteractive tzdata && \
   /bin/bash -l -c "update-ca-certificates" && \
-  locale-gen en_US en_US.UTF-8 && \
+  locale-gen en_US en_US.UTF-8
 
 RUN echo "Installing Vault" && \
   curl -L https://releases.hashicorp.com/vault/0.10.4/vault_0.10.4_linux_amd64.zip -o vault.zip && \
@@ -68,11 +68,11 @@ RUN echo "Adding deploy user and group" && \
   usermod -a -G sudo deploy && usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
   mkdir -p /etc/sudoers.d && \
-  echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users && \
+  echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/90-cloud-init-users
 
 RUN echo "Installing rvm and ruby" && \
   chmod +x /root/base-files/install-rvm.sh && \
-  ./root/base-files/install-rvm.sh && \
+  ./root/base-files/install-rvm.sh
 
 RUN echo "Installing gem-wrappers, autolibs, god and cleaning up RVM" && \
   # Try to work around bug in rvm/gem_wrappers related to ruby gem vesion > 3.2.17
