@@ -17,7 +17,6 @@ RUN echo "Installing Node 18 and yarn" &&\
   curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  npm install npm@latest -g && \
   mkdir -p /etc/my_init.d && \
   mkdir /root/src
 
@@ -27,6 +26,7 @@ RUN echo "Installing all dependancies" && \
   nodejs yarn sudo python-is-python3 unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic dnsutils \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
   postfix libsasl2-modules ntp jq libpcre3-dev zlib1g-dev libpcre3 uuid-dev rustc && \
+  npm install npm@latest -g && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN echo "Installing  mongosh and mongodb tools if we need to pull secrets from mongo backup" &&\
