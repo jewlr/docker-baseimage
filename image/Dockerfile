@@ -14,7 +14,10 @@ RUN echo "Adding Ubuntu keys and installing ca-certs with wget" && \
   apt-key adv --refresh-keys --keyserver hkp://keyserver.ubuntu.com:80
 
 RUN echo "Installing Node 18 and yarn" &&\
-  curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+  mkdir -p /etc/apt/keyrings && \
+  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" > /etc/apt/sources.list.d/nodesource.list && \
+  apt-get update && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   mkdir -p /etc/my_init.d && \
