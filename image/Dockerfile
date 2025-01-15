@@ -50,7 +50,7 @@ RUN echo "Setting up timezone and updating certs" && \
   locale-gen en_US en_US.UTF-8
 
 RUN echo "Installing Vault" && \
-  curl -L https://releases.hashicorp.com/vault/0.10.4/vault_0.10.4_linux_amd64.zip -o vault.zip && \
+  curl -L https://releases.hashicorp.com/vault/1.18.3/vault_1.18.3_linux_amd64.zip -o vault.zip && \
   unzip vault.zip && rm vault.zip && \
   mv vault /usr/local/bin/vault
 
