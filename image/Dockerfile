@@ -17,7 +17,7 @@ RUN echo "Installing Node 22 and yarn" &&\
   mkdir -p /etc/apt/keyrings && \
 #  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
 #  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" > /etc/apt/sources.list.d/nodesource.list && \
-  curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh && bash nodesource_setup.sh && \
+  curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh && chmod +x nodesource_setup.sh &&  bash nodesource_setup.sh && \
   apt-get install -y nodejs && apt-get update && \
   apt remove cmdtest && apt remove yarn && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo apt-key add - && \
