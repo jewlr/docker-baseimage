@@ -20,7 +20,7 @@ RUN echo "Installing Node 22 and yarn" &&\
   curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh && chmod +x nodesource_setup.sh &&  bash nodesource_setup.sh && \
   apt-get install -y nodejs && apt-get update && \
   apt remove cmdtest && apt remove yarn && \
-  curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo apt-key add - && \
+  curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update && apt-get install -y yarn && \
   mkdir -p /etc/my_init.d && \
