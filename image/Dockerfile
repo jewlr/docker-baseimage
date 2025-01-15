@@ -13,7 +13,7 @@ RUN echo "Adding Ubuntu keys and installing ca-certs with wget" && \
   apt update && apt install ca-certificates wget && \
   apt-key adv --refresh-keys --keyserver hkp://keyserver.ubuntu.com:80
 
-RUN echo "Installing Node 18 and yarn" &&\
+RUN echo "Installing Node 22 and yarn" &&\
   mkdir -p /etc/apt/keyrings && \
 #  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
 #  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" > /etc/apt/sources.list.d/nodesource.list && \
@@ -21,6 +21,7 @@ RUN echo "Installing Node 18 and yarn" &&\
   apt-get install -y nodejs && apt-get update && \
   curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
   echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  apt-get install yarn && apt-get update && \
   mkdir -p /etc/my_init.d && \
   mkdir /root/src
 
@@ -31,8 +32,8 @@ RUN echo "Installing all dependancies" && \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
   postfix libsasl2-modules ntp jq libpcre3-dev zlib1g-dev libpcre3 uuid-dev rustc && \
   apt-get update && \
-  npm install npm@latest -g && \
-  npm install -g yarn && \
+#  npm install npm@latest -g && \
+#  npm install -g yarn && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN echo "Installing  mongosh and mongodb tools if we need to pull secrets from mongo backup" &&\
