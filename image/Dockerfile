@@ -17,11 +17,12 @@ RUN echo "Installing Node 22 and yarn" &&\
   mkdir -p /etc/apt/keyrings && \
 #  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
 #  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" > /etc/apt/sources.list.d/nodesource.list && \
-  curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh | bash - && \
+  curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh | bash nodesource_setup.sh && \
   apt-get install -y nodejs && apt-get update && \
-  curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
-  echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  apt-get install -y yarn && apt-get update && \
+  apt remove cmdtest && apt remove yarn && \
+  curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo apt-key add - && \
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  apt-get update && apt-get install -y yarn && \
   mkdir -p /etc/my_init.d && \
   mkdir /root/src
 
