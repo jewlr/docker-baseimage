@@ -1,4 +1,4 @@
-FROM phusion/baseimage:jammy-1.0.1
+FROM phusion/baseimage:noble-1.0.0
 #MAINTAINER Stan Cheng "stan@jewlr.com"
 
 ADD . /root/base-files
@@ -10,7 +10,7 @@ RUN echo "Version Bump 8" && \
 
 RUN echo "Adding Ubuntu keys and installing ca-certs with wget" && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && \
-  apt update && apt install ca-certificates wget && \
+  apt update && apt install -y ca-certificates wget && \
   apt-key adv --refresh-keys --keyserver hkp://keyserver.ubuntu.com:80
 
 RUN echo "Installing Node 22 and yarn" &&\
