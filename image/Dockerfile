@@ -73,7 +73,9 @@ RUN echo "Downloading confd" && \
   chmod +x /usr/local/bin/confd
 
 RUN echo "Adding deploy user and group" && \
-  useradd -m -s /bin/bash deploy && \
+  grep -q ":1000:" /etc/passwd && \
+  usermod -u 1001 ubuntu && \
+  useradd -m -s /bin/bash -u 1000 deploy && \
   usermod -a -G sudo deploy && usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
   mkdir -p /etc/sudoers.d && \
