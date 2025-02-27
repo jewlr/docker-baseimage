@@ -72,10 +72,10 @@ RUN echo "Downloading confd" && \
   curl -L https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 -o /usr/local/bin/confd && \
   chmod +x /usr/local/bin/confd
 
-RUN echo "Adding deploy user and group" && \
-  grep -q ":1000:" /etc/passwd && \
+  RUN echo "Creating deploy group and user" && \
+  groupadd -f deploy && \
   usermod -u 1001 ubuntu && \
-  useradd -m -s /bin/bash -u 1000 deploy && \
+  useradd -m -s /bin/bash -u 1000 -g deploy deploy && \
   usermod -a -G sudo deploy && usermod -p '*' deploy && \
   echo "deploy ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
   mkdir -p /etc/sudoers.d && \
