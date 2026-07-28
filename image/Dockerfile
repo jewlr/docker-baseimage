@@ -29,7 +29,7 @@ RUN echo "Installing Node 22 and yarn" &&\
 RUN echo "Installing all dependancies" && \
   apt-get --assume-yes --verbose-versions --allow-change-held-packages -o Dpkg::Options::="--force-confdef" upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cloud-init openssl curl \
-  nodejs sudo python-is-python3 unzip git-core libcurl4-openssl-dev ruby-dev gnupg2 cronic dnsutils \
+  nodejs sudo python-is-python3 unzip git-core libcurl4-openssl-dev gnupg2 cronic dnsutils \
   mysql-client libmysqlclient-dev vim whois libssl-dev libpq-dev libjemalloc-dev \
   postfix libsasl2-modules ntp jq libpcre3-dev zlib1g-dev libpcre3 uuid-dev rustc && \
   apt-get update && \
@@ -37,13 +37,11 @@ RUN echo "Installing all dependancies" && \
 #  npm install -g yarn && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN echo "Installing  mongosh and mongodb tools if we need to pull secrets from mongo backup" &&\
-  wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | tee /etc/apt/trusted.gpg.d/server-7.0.asc && \
-  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list && \
-  apt-get update && apt-get install -y mongodb-mongosh && \
-  wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2204-x86_64-100.9.0.deb && \
-  apt install ./mongodb-database-tools-ubuntu2204-x86_64-100.9.0.deb && \
-  apt-get update -y
+RUN echo "Installing mongosh and mongodb tools" && \
+  wget -qO- https://www.mongodb.org/static/pgp/server-8.0.asc | tee /etc/apt/trusted.gpg.d/server-8.0.asc && \
+  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-8.0.list && \
+  apt-get update && apt-get install -y mongodb-mongosh mongodb-database-tools && \
+  apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN echo "Setting up timezone and updating certs" && \
   /bin/bash -l -c "update-alternatives --set editor /usr/bin/vim.basic" && \
@@ -67,6 +65,10 @@ RUN echo "Installing GCP Ops Agent, which will always finish even if there is a 
   curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh && \
   bash add-google-cloud-ops-agent-repo.sh --also-install && \
   rm -rf add-google-cloud-ops-agent-repo.sh
+
+RUN echo "Final security update" && \
+  apt-get update && apt-get upgrade -y && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN echo "Downloading confd" && \
   curl -L https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 -o /usr/local/bin/confd && \
@@ -99,4 +101,5 @@ RUN echo "Installing gem-wrappers, autolibs, god and cleaning up RVM" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvm wrapper show god" && \
   echo "Cleaning up RVM" && \
   /sbin/setuser deploy /bin/bash -l -c "source /usr/local/rvm/scripts/rvm && rvmsudo rvm cleanup all" && \
+  rm -rf /usr/local/rvm/src && \
   echo "export TZ=:/etc/localtime" >> /etc/profile

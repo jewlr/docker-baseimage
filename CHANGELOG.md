@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2026-07-28
+
+### Security
+
+- Remove `ruby-dev` package to eliminate unused system Ruby 3.2 and its ~30 associated CVEs
+- Add final `apt-get upgrade` layer after GCP Ops Agent install to patch CVEs in OpenSSL, git, gnupg, sudo, and other system packages
+- Clean up RVM source cache (`/usr/local/rvm/src`) to remove ~400-600MB of build artifacts and eliminate false-positive private key findings in security scans
+- Overall CVE reduction: 476 → 111 (77% reduction)
+
+### Changed
+
+- Switch MongoDB repo from `jammy/7.0` to `noble/8.0` to match the Noble base OS (7.0 has no Noble packages)
+- Install `mongodb-database-tools` via apt instead of manual `.deb` download
+- Add proper `apt-get clean` after MongoDB package installation
+
 ## [4.0.0] - 2023-07-06
 
 ### Changed
